@@ -3,6 +3,7 @@ package ch.frankel.duchessswiss.vaadin;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -15,6 +16,7 @@ import static com.vaadin.ui.Alignment.MIDDLE_CENTER;
 import static com.vaadin.ui.Alignment.TOP_CENTER;
 
 @SuppressWarnings("serial")
+@Title("Duchess Vaadin demo")
 public class MyVaadinUI extends UI
 {
 
