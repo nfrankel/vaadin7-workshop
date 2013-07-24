@@ -9,6 +9,11 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
+import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
+import static com.vaadin.server.Sizeable.Unit.PIXELS;
+import static com.vaadin.ui.Alignment.MIDDLE_CENTER;
+import static com.vaadin.ui.Alignment.TOP_CENTER;
+
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI
 {
@@ -21,26 +26,41 @@ public class MyVaadinUI extends UI
     @Override
     protected void init(VaadinRequest request) {
 
-        final FormLayout layout = new FormLayout();
+        final VerticalLayout mainLayout = new VerticalLayout();
+        mainLayout.setSizeFull();
+        mainLayout.setMargin(true);
 
-        layout.setMargin(true);
+        setContent(mainLayout);
 
-        setContent(layout);
+        Panel panel = new Panel();
+        panel.setHeight(200, PIXELS);
+        panel.setWidth(300, PIXELS);
 
-        TextField loginField = new TextField("Login");
+        mainLayout.addComponent(panel);
+        mainLayout.setComponentAlignment(panel, MIDDLE_CENTER);
 
-        layout.addComponent(loginField);
+        FormLayout panelLayout = new FormLayout();
+        panelLayout.setMargin(true);
+        panelLayout.setSpacing(true);
+        panelLayout.setSizeFull();
 
-        Button button = new Button("Click Me");
+        panel.setContent(panelLayout);
+
+        TextField loginField = new TextField("Username");
+        loginField.setWidth(100, PERCENTAGE);
+
+        panelLayout.addComponent(loginField);
+
+        Button button = new Button("Login");
 
         button.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(ClickEvent event) {
 
-                layout.addComponent(new Label("Thank you for clicking"));
+                mainLayout.addComponent(new Label("Thank you for clicking"));
             }
         });
 
-        layout.addComponent(button);
+        panelLayout.addComponent(button);
     }
 }
