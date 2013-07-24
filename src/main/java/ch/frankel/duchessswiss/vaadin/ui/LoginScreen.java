@@ -1,6 +1,6 @@
 package ch.frankel.duchessswiss.vaadin.ui;
 
-import ch.frankel.duchessswiss.vaadin.behavior.DummyListener;
+import ch.frankel.duchessswiss.vaadin.behavior.LoginListener;
 import com.vaadin.ui.*;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
@@ -35,7 +35,7 @@ public class LoginScreen extends VerticalLayout {
 
         Button button = new Button("Login");
 
-        button.addClickListener(new DummyListener(panelLayout, loginField));
+        button.addClickListener(new LoginListener(new ChatScreen(), loginField));
 
         panelLayout.addComponent(button);
     }
