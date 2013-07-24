@@ -1,24 +1,21 @@
-package ch.frankel.duchessswiss.vaadin;
+package ch.frankel.duchessswiss.vaadin.ui;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.vaadin.annotations.Theme;
+import ch.frankel.duchessswiss.vaadin.behavior.DummyListener;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 import static com.vaadin.server.Sizeable.Unit.PIXELS;
 import static com.vaadin.ui.Alignment.MIDDLE_CENTER;
-import static com.vaadin.ui.Alignment.TOP_CENTER;
 
 @SuppressWarnings("serial")
 @Title("Duchess Vaadin demo")
-public class MyVaadinUI extends UI
-{
+public class MyVaadinUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class)
@@ -55,13 +52,7 @@ public class MyVaadinUI extends UI
 
         Button button = new Button("Login");
 
-        button.addClickListener(new Button.ClickListener() {
-
-            public void buttonClick(ClickEvent event) {
-
-                panelLayout.addComponent(new Label(loginField.getValue()));
-            }
-        });
+        button.addClickListener(new DummyListener(panelLayout, loginField));
 
         panelLayout.addComponent(button);
     }
