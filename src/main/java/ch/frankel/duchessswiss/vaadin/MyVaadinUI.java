@@ -21,7 +21,7 @@ public class MyVaadinUI extends UI
     @Override
     protected void init(VaadinRequest request) {
 
-        final VerticalLayout layout = new VerticalLayout();
+        final FormLayout layout = new FormLayout();
 
         layout.setMargin(true);
 
