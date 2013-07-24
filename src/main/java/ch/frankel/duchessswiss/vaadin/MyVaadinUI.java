@@ -41,14 +41,14 @@ public class MyVaadinUI extends UI
         mainLayout.addComponent(panel);
         mainLayout.setComponentAlignment(panel, MIDDLE_CENTER);
 
-        FormLayout panelLayout = new FormLayout();
+        final FormLayout panelLayout = new FormLayout();
         panelLayout.setMargin(true);
         panelLayout.setSpacing(true);
         panelLayout.setSizeFull();
 
         panel.setContent(panelLayout);
 
-        TextField loginField = new TextField("Username");
+        final TextField loginField = new TextField("Username");
         loginField.setWidth(100, PERCENTAGE);
 
         panelLayout.addComponent(loginField);
@@ -59,7 +59,7 @@ public class MyVaadinUI extends UI
 
             public void buttonClick(ClickEvent event) {
 
-                mainLayout.addComponent(new Label("Thank you for clicking"));
+                panelLayout.addComponent(new Label(loginField.getValue()));
             }
         });
 
