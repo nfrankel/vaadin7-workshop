@@ -10,10 +10,10 @@ import javax.servlet.annotation.WebServlet;
 
 @SuppressWarnings("serial")
 @Title("Duchess Vaadin demo")
-public class MyVaadinUI extends UI {
+public class MainUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class)
+    @VaadinServletConfiguration(productionMode = false, ui = MainUI.class)
     public static class Servlet extends VaadinServlet {
     }
 
