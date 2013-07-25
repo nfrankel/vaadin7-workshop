@@ -18,7 +18,7 @@ public class ChatScreen extends VerticalLayout {
 
         TextArea incoming = new TextArea();
         incoming.setSizeFull();
-        incoming.setEnabled(false);
+        incoming.setReadOnly(true);
         addComponent(incoming);
 
         HorizontalLayout bottomBar = new HorizontalLayout();
