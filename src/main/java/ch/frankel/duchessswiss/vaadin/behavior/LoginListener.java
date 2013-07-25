@@ -5,6 +5,7 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 public class LoginListener implements Button.ClickListener {
@@ -21,7 +22,11 @@ public class LoginListener implements Button.ClickListener {
     @Override
     public void buttonClick(Button.ClickEvent event) {
 
-        VaadinSession.getCurrent().setAttribute(String.class, loginHolder.getValue());
+        String login = loginHolder.getValue();
+
+        Notification.show("Welcome " + login);
+
+        VaadinSession.getCurrent().setAttribute(String.class, login);
 
         UI.getCurrent().setContent(newScreen);
     }
