@@ -4,7 +4,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextArea;
 
-public class ChatListener implements Button.ClickListener {
+public class ChatListener implements Button.ClickListener, BroadcastListener<String, String> {
 
     private TextArea source;
     private TextArea target;
@@ -18,18 +18,20 @@ public class ChatListener implements Button.ClickListener {
     @Override
     public void buttonClick(Button.ClickEvent event) {
 
-        String message = source.getValue();
+        Broadcaster.getInstance().broadcast(VaadinSession.getCurrent().getAttribute(String.class), source.getValue());
+    }
 
-        StringBuilder alreadyThere = new StringBuilder(target.getValue());
+    @Override
+    public void onMessage(String user, String message) {
+
+        final StringBuilder alreadyThere = new StringBuilder(target.getValue());
 
         if (alreadyThere.length() != 0) {
 
             alreadyThere.append("\n");
         }
 
-        String login = VaadinSession.getCurrent().getAttribute(String.class);
-
-        alreadyThere.append(login);
+        alreadyThere.append(user);
         alreadyThere.append(":");
         alreadyThere.append(" ");
 

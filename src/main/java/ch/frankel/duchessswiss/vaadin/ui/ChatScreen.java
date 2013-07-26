@@ -1,16 +1,14 @@
 package ch.frankel.duchessswiss.vaadin.ui;
 
+import ch.frankel.duchessswiss.vaadin.behavior.Broadcaster;
 import ch.frankel.duchessswiss.vaadin.behavior.ChatListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 
 public class ChatScreen extends VerticalLayout {
 
-    ChatScreen() {
+    public ChatScreen() {
 
         setSizeFull();
         setMargin(true);
@@ -33,7 +31,11 @@ public class ChatScreen extends VerticalLayout {
 
         Button button = new Button("Send!");
 
-        button.addClickListener(new ChatListener(toBeSent, incoming));
+        ChatListener chatListener = new ChatListener(toBeSent, incoming);
+
+        button.addClickListener(chatListener);
+
+        MainUI.getCurrent().setBroadcastListener(chatListener);
 
         bottomBar.addComponent(button);
     }
