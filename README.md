@@ -24,10 +24,15 @@ Features are presented in a step-by-step way. A tag demoes a specific feature (o
 |[v0.2](https://github.com/nfrankel/vaadin7-workshop/tree/v0.2) | Proposes an application architecture example, with reusable components
 |[v0.3](https://github.com/nfrankel/vaadin7-workshop/tree/v0.3) | Introduces "screen" switch
 |[v0.4](https://github.com/nfrankel/vaadin7-workshop/tree/v0.4) | Complete event listener model implementation
+|[v0.5](https://github.com/nfrankel/vaadin7-workshop/tree/v0.5) | True push, broadcasted to all clients
 
 By checkouting the desired tag, you can get the state of the project with just the desired state:
 
     git checkout tag v0.2
+
+For broadcast push, which is not trivial, here's a class diagram:
+
+![Broadcast Push class diagram](src/site/broadcast_push.png)
 
 ## Going further
 

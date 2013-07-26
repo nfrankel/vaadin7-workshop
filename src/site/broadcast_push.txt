@@ -1,0 +1,31 @@
+BroadcastListener "*" <-left- Broadcaster
+MainUI .up.|> BroadcastListener
+ChatListener .up.|> BroadcastListener
+MainUI -right-> "1" ChatListener : delegates to >
+MainUI ..> Broadcaster
+
+class Broadcaster {
+
+  + {static} Broadcaster getInstance()
+  + broadcast(user:String, message:String)
+  + register(listener:BroadcastListener)
+  + unregister(listener:BroadcastListener)
+}
+
+interface BroadcastListener<T, V> {
+
+  + {abstract} onMessage(user:T, message:V)
+}
+
+class MainUI {
+
+  + {static} getCurrent():MainUI
+  + detach()
+  # init(request:VaadinRequest) 
+  + onMessage(user:String, message:String)
+}
+
+class ChatListener {
+
+  + onMessage(user:String, message:String)
+}
