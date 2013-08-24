@@ -25,6 +25,7 @@ Features are presented in a step-by-step way. A tag demoes a specific feature (o
 |[v0.3](https://github.com/nfrankel/vaadin7-workshop/tree/v0.3) | Introduces "screen" switch
 |[v0.4](https://github.com/nfrankel/vaadin7-workshop/tree/v0.4) | Complete event listener model implementation
 |[v0.5](https://github.com/nfrankel/vaadin7-workshop/tree/v0.5) | True push, broadcasted to all clients
+|[v0.6](https://github.com/nfrankel/vaadin7-workshop/tree/v0.6) | Set displayed messages in a table instead in a text area
 
 By checkouting the desired tag, you can get the state of the project with just the desired state:
 
