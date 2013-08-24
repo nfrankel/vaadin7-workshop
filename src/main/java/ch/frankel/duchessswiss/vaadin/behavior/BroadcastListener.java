@@ -1,6 +1,6 @@
 package ch.frankel.duchessswiss.vaadin.behavior;
 
-public interface BroadcastListener<T, V> {
+public interface BroadcastListener<T> {
 
-    void onMessage(T user, V message);
+    void onMessage(T message);
 }

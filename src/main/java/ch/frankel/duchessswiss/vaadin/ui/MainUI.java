@@ -14,19 +14,19 @@ import javax.servlet.annotation.WebServlet;
 @SuppressWarnings("serial")
 @Title("Duchess Vaadin demo")
 @Push
-public class MainUI extends UI implements BroadcastListener<String, String> {
+public class MainUI extends UI implements BroadcastListener<Message> {
 
-    private BroadcastListener<String, String> broadcastListener;
+    private BroadcastListener<Message> broadcastListener;
 
     @Override
-    public void onMessage(final String user, final String message) {
+    public void onMessage(final Message message) {
 
         access(new Runnable() {
 
             @Override
             public void run() {
 
-                broadcastListener.onMessage(user, message);
+                broadcastListener.onMessage(message);
             }
         });
     }
@@ -57,7 +57,7 @@ public class MainUI extends UI implements BroadcastListener<String, String> {
         super.detach();
     }
 
-    public void setBroadcastListener(BroadcastListener<String, String> broadcastListener) {
+    public void setBroadcastListener(BroadcastListener<Message> broadcastListener) {
 
         this.broadcastListener = broadcastListener;
     }

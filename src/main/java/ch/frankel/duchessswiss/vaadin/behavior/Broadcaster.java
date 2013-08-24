@@ -1,11 +1,13 @@
 package ch.frankel.duchessswiss.vaadin.behavior;
 
+import ch.frankel.duchessswiss.vaadin.ui.Message;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Broadcaster {
 
-    private final List<BroadcastListener<String, String>> listeners = new ArrayList<BroadcastListener<String, String>>();
+    private final List<BroadcastListener<Message>> listeners = new ArrayList<BroadcastListener<Message>>();
 
     private static final Broadcaster SINGLETON = new Broadcaster();
 
@@ -16,21 +18,21 @@ public class Broadcaster {
         return SINGLETON;
     }
 
-    public void register(BroadcastListener<String, String> listener) {
+    public void register(BroadcastListener<Message> listener) {
 
         listeners.add(listener);
     }
 
-    public void unregister(BroadcastListener<String, String> listener) {
+    public void unregister(BroadcastListener<Message> listener) {
 
         listeners.remove(listener);
     }
 
-    public void broadcast(String user, String message) {
+    public void broadcast(Message message) {
 
-        for (BroadcastListener<String, String> listener : listeners) {
+        for (BroadcastListener<Message> listener : listeners) {
 
-            listener.onMessage(user, message);
+            listener.onMessage(message);
         }
     }
 }

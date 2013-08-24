@@ -2,6 +2,7 @@ package ch.frankel.duchessswiss.vaadin.ui;
 
 import ch.frankel.duchessswiss.vaadin.behavior.Broadcaster;
 import ch.frankel.duchessswiss.vaadin.behavior.ChatListener;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
@@ -14,7 +15,8 @@ public class ChatScreen extends VerticalLayout {
         setMargin(true);
         setSpacing(true);
 
-        TextArea incoming = new TextArea();
+        Table incoming = new Table();
+        incoming.setContainerDataSource(new BeanItemContainer(Message.class));
         incoming.setSizeFull();
         incoming.setReadOnly(true);
         addComponent(incoming);

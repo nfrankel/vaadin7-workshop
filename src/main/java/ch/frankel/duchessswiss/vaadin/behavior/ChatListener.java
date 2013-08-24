@@ -1,15 +1,19 @@
 package ch.frankel.duchessswiss.vaadin.behavior;
 
+import ch.frankel.duchessswiss.vaadin.ui.Message;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 
-public class ChatListener implements Button.ClickListener, BroadcastListener<String, String> {
+import java.util.Date;
+
+public class ChatListener implements Button.ClickListener, BroadcastListener<Message> {
 
     private TextArea source;
-    private TextArea target;
+    private Table target;
 
-    public ChatListener(TextArea source, TextArea target) {
+    public ChatListener(TextArea source, Table target) {
 
         this.source = source;
         this.target = target;
@@ -18,28 +22,16 @@ public class ChatListener implements Button.ClickListener, BroadcastListener<Str
     @Override
     public void buttonClick(Button.ClickEvent event) {
 
-        Broadcaster.getInstance().broadcast(VaadinSession.getCurrent().getAttribute(String.class), source.getValue());
+        Message message = new Message(VaadinSession.getCurrent().getAttribute(String.class), source.getValue(), new Date());
+
+        Broadcaster.getInstance().broadcast(message);
     }
 
     @Override
-    public void onMessage(String user, String message) {
+    public void onMessage(Message message) {
 
-        final StringBuilder alreadyThere = new StringBuilder(target.getValue());
+        target.getContainerDataSource(). addItem(message);
 
-        if (alreadyThere.length() != 0) {
-
-            alreadyThere.append("\n");
-        }
-
-        alreadyThere.append(user);
-        alreadyThere.append(":");
-        alreadyThere.append(" ");
-
-        alreadyThere.append(message);
-
-        target.setReadOnly(false);
-        target.setValue(alreadyThere.toString());
-        target.setReadOnly(true);
         source.setValue("");
     }
 }
