@@ -1,6 +1,6 @@
 package ch.frankel.duchessswiss.vaadin.ui;
 
-import ch.frankel.duchessswiss.vaadin.behavior.Broadcaster;
+import static com.vaadin.ui.Table.ColumnHeaderMode.HIDDEN;
 import ch.frankel.duchessswiss.vaadin.behavior.ChatListener;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
@@ -17,6 +17,10 @@ public class ChatScreen extends VerticalLayout {
 
         Table incoming = new Table();
         incoming.setContainerDataSource(new BeanItemContainer(Message.class));
+        incoming.setVisibleColumns("time", "sender", "text");
+        incoming.setColumnWidth("time", 150);
+        incoming.setColumnWidth("sender", 150);
+        incoming.setColumnHeaderMode(HIDDEN);
         incoming.setSizeFull();
         incoming.setReadOnly(true);
         addComponent(incoming);
