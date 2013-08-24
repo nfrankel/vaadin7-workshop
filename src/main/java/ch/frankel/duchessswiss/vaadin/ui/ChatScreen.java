@@ -20,6 +20,7 @@ public class ChatScreen extends VerticalLayout {
         incoming.setVisibleColumns("time", "sender", "text");
         incoming.setColumnWidth("time", 150);
         incoming.setColumnWidth("sender", 150);
+        incoming.addGeneratedColumn("time", new TimeGeneratedColumn());
         incoming.setColumnHeaderMode(HIDDEN);
         incoming.setSizeFull();
         incoming.setReadOnly(true);
