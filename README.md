@@ -258,3 +258,7 @@ If at this point, you're interested to go further into Vaadin, I would suggest s
 
 
     
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nfrankel/vaadin7-workshop/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
