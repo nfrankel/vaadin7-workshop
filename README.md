@@ -29,7 +29,7 @@ Features are presented in a step-by-step way. A tag demoes a specific feature (o
 
 By checking out the desired tag, you can get the state of the project with just the desired state:
 
-    git checkout tag v0.2
+    git checkout tags/v0.2
 
 # Steps
 
