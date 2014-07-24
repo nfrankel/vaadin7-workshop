@@ -1,17 +1,41 @@
-# Vaadin 7 workshop
+# Vaadin workshop
 
-![Vaadin logo](src/site/vaadin.jpg)
+![image](src/site/vaadin.png)
 
-This Vaadin 7 workshop intends to demonstrate some capabilities of Vaadin in general and Vaadin 7 in particular.
+This Vaadin project intends to demonstrate some capabilities of the [Vaadin](https://vaadin.com/) web framework.
+
+The material can be presented in different ways:
+
+* As a full-fledged workshop
+* As live-coding in front of an audience
+* As a tutorial
 
 ## License and terms of use
+
 The project is licensed under the terms of GPL v3, although if you use it - as you're encouraged to do, I would appreciate if you would:
 
 * mention [this Github project](https://github.com/nfrankel/vaadin7-workshop/)
-* give [me](https://github.com/nfrankel) credit in your slides
+* give [me](http://blog.frankel.ch/me) credit in your slides
 * ping me so that I know who uses it
 
-Feedback and contributions are also much appreciated!
+Feedback and pull requests are also much appreciated!
+
+## Prerequisites
+
+There are only a few prerequisites to this workshop:
+
+1. **Java**: the minim Java version Vaadin is compatible with is 6. However, version 8 provides lambda expressions.
+2. **Maven**: this workshop provides a POM to retrieve dependencies and package the WAR
+3. **Your IDE of choice**: get your favorite IDE, be it IntelliJ IDEA, Eclipse or Oracle NetBeans
+
+## Going further
+
+If you're interested to go further into Vaadin, I would suggest some of my personal resources:
+
+* [morevaadin.com](http://morevaadin.com) contains a number of articles on a single dedicated subject
+* [Learning Vaadin 7](http://www.packtpub.com/learning-vaadin-7-second-edition/book) is a whole book dedicated to learning Vaadin 7 from the ground up
+
+![Learning Vaadin cover](src/site/learning_vaadin.jpg)
 
 ## Demoed features
 
@@ -19,246 +43,326 @@ Features are presented in a step-by-step way. A tag demoes a specific feature (o
 
 | Tag | Feature |
 |-----|---------|
-|[v0.0](https://github.com/nfrankel/vaadin7-workshop/tree/v0.0) | Project generated with Vaadin Maven archetype, but cleaned up to only provide what's necessary
-|[v0.1](https://github.com/nfrankel/vaadin7-workshop/tree/v0.1) | Introduces components, layouts, title
-|[v0.2](https://github.com/nfrankel/vaadin7-workshop/tree/v0.2) | Proposes an application architecture example, with reusable components
-|[v0.3](https://github.com/nfrankel/vaadin7-workshop/tree/v0.3) | Introduces "screen" switch
-|[v0.4](https://github.com/nfrankel/vaadin7-workshop/tree/v0.4) | Complete event listener model implementation
-|[v0.5](https://github.com/nfrankel/vaadin7-workshop/tree/v0.5) | True push, broadcasted to all clients
-|[v0.6](https://github.com/nfrankel/vaadin7-workshop/tree/v0.6) | Set displayed messages in a table instead in a text area
+|[v7.2-1](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-1) | Starting point
+|[v7.2-2](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-2) | Basic UI stuff
+|[v7.2-3](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-3) | Architecture
+|[v7.2-4](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-4) | More UI stuff
+|[v7.2-5](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-5) | Tabular data
+|[v7.2-6](https://github.com/nfrankel/vaadin7-workshop/releases/tag/v7.2-6) | Push
 
-By checking out the desired tag, you can get the state of the project with just the desired state:
+If at any point, you're lagging behind in the workshop, you can easily get to the next step byt checking out the desired tag:
 
-    git checkout tags/v0.2
+    git checkout v7.2-2
 
-# Steps
+## Steps
 
-## Step 0 - Starting off on the right foot
+### Step 1 - Starting off on the right foot
 
-In order to start quickly, we use Maven and the provided artifact. On the command line, type
-
-```
-mvn -B archetype:generate  -DarchetypeGroupId=com.vaadin -DarchetypeArtifactId=vaadin-archetype-application -DarchetypeVersion=7.1.1 -DgroupId=ch.frankel.duchessswiss.vaadin -DartifactId=vaadin7-demo -Dversion=1.0-SNAPSHOT -Dpackaging=war
-```
-
-This creates a complete project, where some configuration parts are not needed. We may remove them with confidence:
-
-1. In the POM:
-    * Remove the `repositories` and `pluginRepositories` sections
-	* Remove the commented out dependency
-	* Remove the `vaadin-maven-plugin` plugin as it's used only when we need to compile GWT widgetsets
-	* Remove the `lifecycle-mapping` plugin since it's only needed when the latter is used (and only in Eclipse)
-1. In `MyVaadinUI.java`:
-    * Remove `@Theme` as we will not use a custom theme
-    * In `@VaadinServletConfiguration`, remove the `widgetset` attribute
-1. Remove the `AppWidgetSet.gwt.xml` file (in `src/main/java`)
-1. Remove the whole `src/main/webapp` folder
-
-Both POM and UI should now be much more concise.
-
-Now is the right time to deploy and play with our newly-created Vaadin application.
-
-## Step 1 - UI proper
-
-In this step, to check results of your updates, either:
-
-* deploy to your local server inside your favorite IDE
-* or wait until Tomcat reload classes and then refresh your browser
-
-### Components
-
-Adding components in Vaadin is a breeze if you're familiar with Swing or even plain <abbr title="Object-Oriented Programming">OOP</abbr>. Just add the wanted component to your layout, *e.g.* to add a text field, just use the following snippet:
+Vaadin provides a Maven archetype, which can be used with the following command-line:
 
 ```
-TextField loginField = new TextField("Login");
-
-layout.addComponent(loginField);
+mvn -B archetype:generate -DarchetypeGroupId=com.vaadin -DarchetypeArtifactId=vaadin-archetype-application -DarchetypeVersion=7.2.5 -DgroupId=ch.frankel.vaadin.workshop -DartifactId=vaadin-workshop -Dversion=1.0-SNAPSHOT -Dpackaging=war
 ```
 
-Now, try to add some more components on your own. Hint: they all implement `com.vaadin.ui.Component`.
+This will generate a not-so-empty Vaadin application, with more than what is strictly necessary in this workshop. At this step, the project has been cleaned up to remove *widgetset*-specific code and POM configuration.
 
-Notice nearly most component constructors require a `String` argument; it will be displayed as their associated label on the UI.
+Now, let's get to work:
 
-### Layouts
-
-As for components, layouts are pretty simple for Swing/Flex developers.
-
-Layouts are dedicated components, that can contain other components(`com.vaadin.ui.Layout` extends `com.vaadin.ui.ComponentContainer` which in turn extends `com.vaadin.ui.Component` transitively) so it is very easy to nest layouts inside each other to provide for complex UIs. However, those translate as nested `div` tags in the rendered HTML: in real-life Vaadin applications, avoid nesting more than 3 levels of layouts as legacy browsers/machines will degrade performance poorly.
-
-Change the `VerticalLayout` type to a `HorizontalLayout` type, then to a `FormLayout` and check results at each change. Let's settle on the form layout, as it offers the most pleasant display.
-
-Note components can be set a determined height and width (`setHeight()` and `setWidth()`) while layouts add the following customizations:
-
-* alignment of a component inside them
+1. Create the WAR package with Maven:
 
 ```
-layout.setComponentAlignment(component, Alignment.MIDDLE_CENTER);
+mvn package
 ```
 
-* an outer margin (akin to a CSS `margin`)
- 
-```
-component.setMargin(true)
-```
-* an inner spacing (akin to a CSS `padding`)
+1. Look at the generated package
+2. Deploy the WAR in a servlet container (*e.g.* Tomcat or Jetty)
+3. Play with the application
+4. Look at the raw source
+5. Look at the generated HTML (with Chrome's Developer Tools or Firebug for Firefox)
+6. Finally, look at the code
+7. Try to put everything together
 
-```
-component.setSpacing(true)
-```
-### Title
+### Step 2 - UI Basics
 
-Change the displayed page title is as easy as adding a `@Title` annotation on the UI. For dynamic page title, use:
+#### Components
 
-```
-Page.getCurrent().setTitle(aDynamicallyComputedString);
-```
+In the Vaadin framework, **components** can be added to the GUI to be displayed. Most of them are very similar to those in Swing (*e.g.* `TextField`, `PasswordField`, etc.). They are located under the `com.vaadin.ui` package.
 
-## Step 2 - Architecturing
+* *Note 1*: some Vaadin components have no visual display, but this is the exception, not the rule.
+* *Note 2*: most of Vaadin component constructors require a `String` argument. This is the label associated with the component.
+* *Note 3*: `UI` is a container, not a layout - it can contain only a single child.
 
-OOP is about componentization and reusability. At this point, we only have a single class with everything coded inside it, which defeats its purpose.
+#### Layouts
 
-### Basics
+**Containers** are specialized components that can have other components (including containers) as children. In turn, **layouts** are specialized containers that lay out their children in a specific way.
 
-At this point, clicking the button just adds a new static label. Instead of this label, try to display the login field value, to check we can get its value at any time. This requires adding the `final` attribute to the login field to be able to use in the anonymous inner class.
+Try the following, be sure to check the display after each step:
 
-### Reusable listeners
+1. Try adding a few components to the `VerticalLayout`
+2. Change the `VerticalLayout` to a `HorizontalLayout`
+3. Change the `HorizontalLayout` to a `FormLayout`
 
-As a general rule, we should avoid anonymous inner classes and promote instead top-level abstractions (at least until Java 8). Use your IDE specifics to achieve this: this means passing component references as arguments to the listener constructor (please do not create accessors, think immutability).
+*Note*: it is possible to nest layouts inside layouts. However, as they translate as `div`, client computers may run into performance problems rendering too many nested levels.
 
-Also, put the newly-created class into a dedicated `ch.frankel.duchessswiss.vaadin.behavior` package and name it `DummyListener`.
+In case of need, to debug layout issues, use the `debug=true` query parameter.
 
-### Reusable components
+#### Margin, sizing and alignment
 
-We should do the same for the GUI, assign separate responsibilities for UI and screen:
+Though complete theming is available through Cascading Style Sheets, it's possible to use just Java to customize appearance. As previously, check the display after each code change:
 
-* The former manages the servlet and the title
-* The latter is the reusable login screen component
+1. There's no space between the window border and the password label. Use the `setMargin()` method on the layout.
+2. Use the `setHeight()` or `setWidht()` on different components. Their parameter is a CSS size (*e.g* `50px` or `100%`). There's a shortcut method for `setHeight("100%")` and `setWidht("100%")` named `setSizeFull()`
 
-Put this new `LoginScreen`class into a dedicated `ch.frankel.duchessswiss.vaadin.ui` package.
-	
-### UI name
+*Note*: aligning components inside the layout is of course possible, but require references to the former and the later as well as defined sizes for each of them
 
-Since we do not use a dedicated web deployment descriptor - a Servlet 3.0 feature, we can easily update our UI name: refactor `MyVaadinUI` to `MainUI` and check in its `@VaadinServletConfiguration` annotation, the `ui` attribute is updated accordingly.
+#### Title
 
-Redeploy and check the output is the same.
+Check the page title in the browser: it is set to the page's location. Having a relevant title would go a long way toward a better user-experience. To achieve that, Vaadin provide the `Page` object:
 
-## Step 3 - Switching UIs
 
-We are now in the comfortable situation to be able to easily switch screens.
-
-In order to create a chat application, let's create a new `ChatScreen` with the following components:
-
-* one source `TextArea` to type messages
-* one target `TextArea` to display messages
-* and one `Button` to effectively send messages
-
-Now, change the previous dummy behavior to a login behavior that set the `ChatScreen` as the UI's content:
-
-```
-UI.getCurrent().setContent(new ChatScreen());
+```java
+Page.getCurrent().setTitle("Vaadin Workshop");
 ```
 
-### Session storage
+*Note*: the static `getCurrent()` method is available on many Vaadin objects. It uses the `ThreadLocal` pattern, so that you don't have to pass references around.
 
-Vaadin shields us from native Java EE API but provides similar features. In particular, instead of getting a handle on `javax.servlet.http.HttpSession` to store session data, Vaadin offers two ways:
+Alternatively, if the title is static, setting the title can be achieved through the `@Title` annotation on the `UI`.
 
-* The standard hash map way, `VaadinSession.getCurrent().setAttribute(String, Object)`
-* An improved storage access mechanism, `VaadinSession.getCurrent().setAttribute(Class<T>, Object)`. This of course is particularly appropriate when having a full-fledged class that should only have a single instance per "HTTP session" (*e.g.* a `Principal` or a user object).
-
-Use this to store the login name after login has been processed, using one or the other way.
-
-### Notification
-
-In order to display messages to clients, Vaadin provides the `com.vaadin.ui.Notification` class instead of regular popups. Use it to inform login has been successful (or not).
-
-Note that the modality - the user cannot interact with the UI behind an ERROR, comes for JavaScript and can easily be circumvented by disabling it: do not rely on that.
-
-## Step 4 - Push
-
-For a start, implement behavior so that messages written into the chat screen disappear from the input text area and are displayed into the main text area when the button is clicked using the event-listener model already used above.
-
-This implementation is lacking, since it only displays messages to its own sender and not to other connected clients… not really useful in real-life.
-
-### Broadcasted push
-
-Broadcasted push means messages are pushed to every connected client. This requires several actions:
-
-* Create a `BroadcastListener` class with an `onMessage()` method
-* Create a `Broadcaster` singleton, that can register/unregister `BroadcastListener` instances
-* The already existing `MainUI` should:
-    * Implement `BroadcastListener`
-	* Add a `BroadcastListener` attribute and a associated setter
-	* Delegate UI changes to it inside the `onMessage()` method by using `access()`. The latter locks the UI so that changes may be handled in a thread-safe way.
-
-```
-    @Override
-    public void onMessage(final Message message) {
-
-        access(new Runnable() {
-
-            @Override
-            public void run() {
-
-                broadcastListener.onMessage(message);
-            }
-        });
-    }
-```
-
-Here's the summary class diagram:
-
-![Broadcast Push class diagram](src/site/broadcast_push.png)
-
-## Step 5 - Tabular data
-
-Messages display can be improved: a text area cannot be appended easily, so that we need to get its content, add the message and set the aggregated string again.
-
-Vaadin provides a dedicated component to display tabular data - `com.vaadin.ui.Table`, and an underlying data model - `com.vaadin.data.util.BeanItemContainer`.
-
-Set a new `BeanItemContainer` as a data source to the table.
-
-Create a `Message` class, wrapping the sender login, sent time as well as the text. New messages can be added directly to the table data model, the table UI being a listener of its own data model (but changes still have to be pushed to all clients).
-
-Table customization can be implemented in several ways:
-
-* Order columns with `table.setVisibleColumns(String...)`
-* By default, columns have the same width. Search how they can be set a width
-* Hide column headers with `table.setColumnHeaderMode(ColumnHeaderMode.HIDDEN)`
-* Column generators are a great way to either create new columns from data not found as-is in the data model or to customize existing columns. Provide a generated column to display time in a localized way. see the `Table.ColumnGenerator` and the `table.addGeneratedColumn(String)`.
-
-The code should look something like this:
-
-```
-@Override
-public Object generateCell(Table source, Object itemId, Object columnId) {
-
-    // Get the item, i.e. the line. In our case, the message object
-    Item item = source.getItem(itemId);
-
-    // Get the column, i.e. the attribute. In our case, the date
-    Property<Date> prop = item.getItemProperty(columnId);
-
-    // Don't forget to do something with the returned object
-    // As it is it doesn't change the output
-    return prop.getValue();
+```java
+@Title("Vaadin Workshop")
+public class MyVaadinUI extends UI {
+    ...
 }
 ```
 
-Note that if the returned object implements `Component`, Vaadin will use it as-is while otherwise it will wrap it in a `Label` component.
+### Step 3 - Architecturing
 
-# Going further
+OOP is about componentization and reusability. At this point, we only have a single class with everything coded inside it, which defeats its purpose.
 
-If at this point, you're interested to go further into Vaadin, I would suggest some of my personal resources:
+The following steps consist of architectural improvements, so make sure the displayed result should stay the same throughout of all them. 
 
-* [morevaadin.com](http://morevaadin.com) contains a number of articles on a single dedicated subject
-* [Learning Vaadin 7](http://www.packtpub.com/learning-vaadin-7-second-edition/book) is a whole book dedicated to learning Vaadin 7 from the ground up
+#### Dedicated configuration class
 
-![Learning Vaadin cover](src/site/learning_vaadin.jpg)
+Servlet 3.0 and associated annotations is a good way to replace the legacy `web.xml`, despite the overhead to subclass the `VaadinServlet` class. However, this doesn't mean the latter should be an inner class of the `UI`.
 
+Extract the configuration servlet into its own class in the `ch.frankel.vaadin.workshop.web` package.
 
+#### Reusable listeners
 
+Java 8 allows to use lambda expressions in place of single method interfaces. Replace the `Button.ClickListener` with a lambda.
+
+As a general rule, anonymous inner classes (or lambdas) should be avoided and top-level abstractions should be promote instead. Refactor the code to do this. Passing the layout reference as a constructor arguments is necessary (but please do not create accessors, think immutability). Put the newly created class into a dedicated `ch.frankel.vaadin.workshop.behavior` package and name it `DummyListener`. We'll create more useful listeners in this package later.
+
+Also, move the `UI` class into a `ch.frankel.vaadin.workshop.ui` package.
+
+#### Reusable GUI components
+
+The `UI` represents the inner content of the browser window. To make parts of it reusable, they must be made top-level components.
+
+Extract the `FormLayout` into its own dedicated class. This works but binds the component irremediably to the layout.
+
+To make more configurable components, create components that extends `CustomComponent` and add a constructor that accepts a layout. In our case, name the component `LoginScreen` and the layout parameter should be of type `AbstractOrderedLayout`.
+
+A `CustomComponent` is set its content either through its super constructor or through the `setCompositionRoot()` method.
+
+```java
+public class LoginScreen extends CustomComponent {
+
+    public LoginScreen(AbstractOrderedLayout layout) {
+        super(layout);
+    }
+}
+```
+
+Instantiate the `FormLayout` in the `UI` and pass it to the constructor.
+
+```java
+@Override
+protected void init(VaadinRequest request) {
+    setContent(new LoginScreen(new FormLayout()));
+}
+```
+
+### Step 4 - More features
+
+Vaadin brings unique and powerful features within your reach. This section is dedicated to a few of them.
+
+#### Switching screens
+
+Vaadin implements the Single Page Interface paradigm. 
+
+An application which always displays the same components is not interesting. This section is dedicated to switch screens.
+
+We will use a chat application mockup as an illustration. As the `LoginScreen` has already been developed previously, we just need a new screen `ChatScreen`. Create this component and for now, just add a simple label as the composition root to have something displayed.
+
+Switching screens is achieved by using the `UI.getCurrent().setContent(...)`. Put it in a dedicated `LoginListener` and set this `LoginListener` as the button's new behavior. Don't implement anything for the login logic yet. Change the button's label accordingly (from "Click me!" to "Login"). Verify that when the button is clicked, the displayed screen changes.
+
+```java
+@Override
+public void buttonClick(Button.ClickEvent event) {
+    UI.getCurrent().setContent(new MainScreen());
+}
+```
+
+Refresh the browser window (press F5): the display is reset to the first login screen. The reason is that the `init()` method of the `UI` is called. This is not so good when one has to develop screens that are set after a long sequence of screen changes. In order for the server state to be saved across browser refreshes, annotate the `UI` with `@PreserveOnRefresh`.
+
+*Note*: to force `init()` to be called, add `restartApplication` to the query parameters
+
+#### Notifications
+
+Notifications are the Vaadin way to notify the user about events of interest happening. They are accessible through the `Notification` class. Use it to let the user he has been successfully logged in.
+
+```java
+Notification.show("You've been successfully logged in");
+```
+
+Simple notifications simply disappear when the user moves the mouse, which is not adapted to error. Implement a simple login logic in the listener and display an error notification when the user fails authentication: this is possible through the `Type.ERROR_MESSAGE` parameter in the `show()` method.
+
+```java
+Notification.show("Wrong credentials", ERROR_MESSAGE);
+```
+
+#### Storing data
+
+Notice Vaadin cleverly hides the JavaEE API, so that there's no straightforward access to many objects, such as `HttpSession`, `HttpServletRequest` and `HttpServletResponse` objects. This doesn't mean that their features are not accessible: in particular, storing data into the user session is provided via the `VaadinSession.getCurrent().setAttribute()` method. Store the login field value into the session and display it as a label on the main screen.
+
+Attributes can be stored by key as usual, but also by class. This makes storing full-fledged objects such as `User` a breeze.
+
+```java
+VaadinSession.getCurrent().setAttribute(User.class, user);
+```
+
+### Step 5 - Tabular data
+
+For a chat application, the `ChatScreen` needs a few components:
+
+* One `Table` component to display sent messages
+* One `TextArea` component to type messages
+* One `Button` to effectively send messages
+
+Use what you've learned previously to add those components to the screen as in the following mockup:
+
+![Chat screen mockup](src/site/mockup.png)
+
+#### Simple model
+
+Also, create a `Listener` to move the typed message from the message input to a row in the table. This first requires configuring the table to have a single column of type `String`.
+
+```java
+table.addContainerProperty("Message", String.class, null);
+```
+
+For the moment, simply use the `Table.addItem(Object[] cells, Object itemId)` method to add a new message.
+
+```java
+table.addItem(new Object[] { message }, )
+```
+
+Of course, using a table to add a single piece of data is useless. Let's try to add more data:
+
+* Author (*i.e.* the logged-in user)
+* Date and time
+* And keep the message, of course
+
+#### Container model
+
+Using `Object` arrays to structure the table model is extremely fragile. Fortunately, Vaadin provides an extremely rich structured model. In particular, there're 3 levels of abstraction available:
+
+* `Property` to wrap a simple value (*e.g.* a date)
+* `Item` to wrap objects - a collection of properties (*e.g.* a person)
+* `Container` to wrap a collection objects
+
+`Container` is extremely well-suited to be displayed in a table component. Each `Item` in a container (*i.e.* row) is identified by a unique identifier dependent on the container's implementation.
+
+![Out-of-the-box container implementations](src/site/container.png)
+
+* `BeanContainer` has to provide a custom identifier generator
+* In a `BeanItemContainer`, the `Item` itself is the identifier
+* In a `SQLContainer`, the identifier is the *primary key* of the underlying database row
+
+Leaving `SQLContainer` aside for now, choose the right `Container` implementation. Then, create a class to hold author, message and date. Finally, binding the container to the table is extremely simple with the `table.setContainerDataSource()` method.
+
+Note that by using a container data source, **items are to be added on the container instead of the table**. Vaadin out-of-the-box components that are set a data source register it so they will reflect changes to the underlying model.
+
+```java
+Message message = new Message(author, text, date);
+BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
+container.addBean(message);
+```
+
+#### Customizing tables
+
+Table components can be heavily customized in a variety of ways.
+
+* Headers
+
+    * By default, column headers take the value of the underlying property. However, they can be customized via the `table.setColumnHeaders(String...)`. Use it to change the column header labels.
+
+    * By using a container datasource, the initial order of the columns is hard to guess. Besides, underlying wrapped class could change, so the previous method is quite fragile. An alternate way to customize header labels is throught the `table.setColumnHeader(String, String)` method. The first `String` parameter is the property's name, the second one the column header's label to set. Use this alternate way to change column labels.
+
+    * Column headers can also be hidden. In fact, the default header display is governed by the `columnHeaderMode` property of the table. Check its different possible values and hide headers altogether.
     
+* Columns
+
+    * Columns can be hidden or ordered in a different way, both thanks to the `table.setVisibleColumns(String[])`. The array parameter is the ordered list of all container properties to be displayed on the table.
+    
+    * As any components, columns can be set a width with `table.setColumnWidth(String, int)`. The first parameter is the property name, the second the width in pixel. Use this to resize the author and timestamp columns.
+    
+    * Column cells rendering can also be customized. By default, the property's value is formatted into a `String` and displayed in a `Label`. Most types are transformed using `toString()`, but some (*e.g.* `java.util.Date`) are handled in a specific way. To change the rendering of a column, implement a new `ColumnGenerator` and add it to the table with `table.addGeneratedColumn(String, ColumnGenerator)`. 
+    
+        ```java
+        @Override
+        public Object generateCell(Table source, Object itemId, Object columnId) {
+            Item item = source.getItem(itemId);
+            Property property = item.getItemProperty(columnId);
+            Object value = property.getValue();
+            return MyComponent(value);
+        ``` 
+
+        The returned type can be either `Component` or `String`. In the latter case, it will be wrapped into a label to be displayed.
+        
+        Even better, column generators can be used to add entirely new columns. Write such a generator to display a column with a "Delete me" button. Then add a behavior so that when the button is pressed, the associated message is removed from the container. Hint: store the `Item`'s id and the reference to the container with the `Button.setData(Object)` and remove the item with the `BeanItemContainer.removeItem(Object)`.
+
+Extract all table-related code into its own decicated `MessageTable` class.
+
+#### SQL database
+
+At this point, migrating to a SQL database instead of a in-memory container is straightforward: just change the `BeanItemContainer<Message>` type to a `SQLContainer` type.
+
+![SQLContainer dependencies](src/site/sqlcontainer.png)
+
+Of course, some adaptations are in order:
+
+1. The main changes has to be made in the `MessageTable`. Replace the previous `BeanItemContainer` and along, replace `Message` property names by the names of the database columns (`TIME_STAMP`, `AUTHOR` and `TEXT`). Note some of the above objects have to be used, choose wisely!
+
+    ```java
+    JDBCConnectionPool connectionPool = ...
+    QueryDelegate queryDelegate = ...
+    Container container = new SQLContainer(queryDelegate);
+    ```
+    
+    For connection parameters, use the available `Parameters` class.
+
+2. In the click listener, replace usage of the `addBean()` method and the `Message` class with the `addItem()` method and getting the desired property to set its value:
+
+    ```java
+    Object rowId = output.addItem();
+    RowItem rowItem = (RowItem) output.getItem(rowId);
+    rowItem.getItemProperty("DB_COLUMN").setValue(property);
+    ```
+
+3. By default, the SQL container doesn't commit changes automatically to the underlying database. Either set it auto-commit or commit each change (add and delete) explicitly.
+
+Try the application wit these changes. Notice that the line added to the table will be empty. In order to sync changes made to the container, call its `refresh()` method.
+
+Icing on the cake, the "add items" feature can be extracted from the listener to the table, so that as to promote encapsulate.
+
+### Push
+
+A messaging application with only one user is not really usable. This is however what happens with the current state of our app.
+
+To fix it, we need a single "broadcaster" instance for the entire application (it is provided). At login, each client will register itself to this broadcaster. The latter will then be responsible receive messages sent and send them to all previously registered clients.
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nfrankel/vaadin7-workshop/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 
