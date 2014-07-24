@@ -1,4 +1,4 @@
-package ch.frankel.duchessswiss.vaadin.behavior;
+package ch.frankel.vaadin.workshop.push;
 
 public interface BroadcastListener<T> {
 
