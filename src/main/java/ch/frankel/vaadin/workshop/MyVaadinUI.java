@@ -17,7 +17,7 @@ public class MyVaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        final VerticalLayout layout = new VerticalLayout();
+        final AbstractOrderedLayout layout = new HorizontalLayout();
         setContent(layout);
         Button button = new Button("Click Me");
         button.addClickListener(event -> layout.addComponent(new Label("Thank you for clicking")));
