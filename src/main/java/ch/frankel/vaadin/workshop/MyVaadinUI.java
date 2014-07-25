@@ -3,11 +3,7 @@ package ch.frankel.vaadin.workshop;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -25,6 +21,9 @@ public class MyVaadinUI extends UI {
         setContent(layout);
         Button button = new Button("Click Me");
         button.addClickListener(event -> layout.addComponent(new Label("Thank you for clicking")));
+        layout.addComponent(new Label("Please enter credentials"));
+        layout.addComponent(new TextField("Login:"));
+        layout.addComponent(new PasswordField("Password:"));
         layout.addComponent(button);
     }
 }
