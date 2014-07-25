@@ -23,7 +23,11 @@ public class MyVaadinUI extends UI {
         layout.setMargin(true);
         setContent(layout);
         Button button = new Button("Click Me");
-        button.addClickListener(event -> layout.addComponent(new Label("Thank you for clicking")));
+        button.addClickListener(event -> {
+            Label label = new Label("Thank you for clicking");
+            label.setHeight(100, PIXELS);
+            layout.addComponent(label);
+        });
         layout.addComponent(new Label("Please enter credentials"));
         TextField login = new TextField("Login:");
         login.setWidth(250, PIXELS);
