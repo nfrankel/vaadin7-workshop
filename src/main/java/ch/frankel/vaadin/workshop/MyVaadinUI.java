@@ -8,6 +8,8 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import javax.servlet.annotation.WebServlet;
 
+import static com.vaadin.server.Sizeable.Unit.PIXELS;
+
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI {
 
@@ -28,7 +30,9 @@ public class MyVaadinUI extends UI {
             }
         });
         layout.addComponent(new Label("Please enter credentials"));
-        layout.addComponent(new TextField("Login:"));
+        TextField login = new TextField("Login:");
+        login.setWidth(250, PIXELS);
+        layout.addComponent(login);
         layout.addComponent(new PasswordField("Password:"));
         layout.addComponent(button);
     }
