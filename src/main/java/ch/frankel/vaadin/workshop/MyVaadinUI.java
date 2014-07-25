@@ -1,6 +1,7 @@
 package ch.frankel.vaadin.workshop;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
@@ -37,5 +38,6 @@ public class MyVaadinUI extends UI {
         layout.addComponent(login);
         layout.addComponent(new PasswordField("Password:"));
         layout.addComponent(button);
+        Page.getCurrent().setTitle("Vaadin Workshop");
     }
 }
