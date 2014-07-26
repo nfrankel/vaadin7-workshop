@@ -1,6 +1,6 @@
 package ch.frankel.vaadin.workshop.web;
 
-import ch.frankel.vaadin.workshop.MyVaadinUI;
+import ch.frankel.vaadin.workshop.ui.MyVaadinUI;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinServlet;
 

@@ -1,6 +1,7 @@
-package ch.frankel.vaadin.workshop;
+package ch.frankel.vaadin.workshop.ui;
 
 import com.vaadin.server.Page;
+import ch.frankel.vaadin.workshop.behavior.DummyClickListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 
@@ -15,11 +16,7 @@ public class MyVaadinUI extends UI {
         layout.setMargin(true);
         setContent(layout);
         Button button = new Button("Click Me");
-        button.addClickListener(event -> {
-            Label label = new Label("Thank you for clicking");
-            label.setHeight(100, PIXELS);
-            layout.addComponent(label);
-        });
+        button.addClickListener(new DummyClickListener(layout));
         layout.addComponent(new Label("Please enter credentials"));
         TextField login = new TextField("Login:");
         login.setWidth(250, PIXELS);
