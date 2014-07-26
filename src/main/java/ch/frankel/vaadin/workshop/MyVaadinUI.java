@@ -1,24 +1,14 @@
 package ch.frankel.vaadin.workshop;
 
 import com.vaadin.annotations.Title;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-
-import javax.servlet.annotation.WebServlet;
 
 import static com.vaadin.server.Sizeable.Unit.PIXELS;
 
 @SuppressWarnings("serial")
 @Title("Vaadin Workshop")
 public class MyVaadinUI extends UI {
-
-    @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class)
-    public static class Servlet extends VaadinServlet {
-    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -27,7 +17,7 @@ public class MyVaadinUI extends UI {
         setContent(layout);
         Button button = new Button("Click Me");
         button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
+            public void buttonClick(Button.ClickEvent event) {
                 Label label = new Label("Thank you for clicking");
                 label.setHeight(100, PIXELS);
                 layout.addComponent(label);
