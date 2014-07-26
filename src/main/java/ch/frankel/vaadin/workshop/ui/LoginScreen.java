@@ -5,17 +5,21 @@ import com.vaadin.ui.*;
 
 import static com.vaadin.server.Sizeable.Unit.PIXELS;
 
-public class LoginScreen extends FormLayout {
+public class LoginScreen extends CustomComponent {
 
-    public LoginScreen() {
-        setMargin(true);
+    private AbstractOrderedLayout layout;
+
+    public LoginScreen(AbstractOrderedLayout layout) {
+        super(layout);
+        this.layout = layout;
+        layout.setMargin(true);
         Button button = new Button("Click Me");
-        button.addClickListener(new DummyClickListener(this));
-        addComponent(new Label("Please enter credentials"));
+        button.addClickListener(new DummyClickListener(layout));
+        layout.addComponent(new Label("Please enter credentials"));
         TextField login = new TextField("Login:");
         login.setWidth(250, PIXELS);
-        addComponent(login);
-        addComponent(new PasswordField("Password:"));
-        addComponent(button);
+        layout.addComponent(login);
+        layout.addComponent(new PasswordField("Password:"));
+        layout.addComponent(button);
     }
 }
