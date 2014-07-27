@@ -14,12 +14,13 @@ public class LoginScreen extends CustomComponent {
         this.layout = layout;
         layout.setMargin(true);
         Button button = new Button("Login");
-        button.addClickListener(new LoginClickListener());
         layout.addComponent(new Label("Please enter credentials"));
-        TextField login = new TextField("Login:");
-        login.setWidth(250, PIXELS);
-        layout.addComponent(login);
-        layout.addComponent(new PasswordField("Password:"));
+        TextField loginField = new TextField("Login:", "vaadin");
+        loginField.setWidth(250, PIXELS);
+        layout.addComponent(loginField);
+        PasswordField passwordField = new PasswordField("Password:");
+        layout.addComponent(passwordField);
         layout.addComponent(button);
+        button.addClickListener(new LoginClickListener(loginField, passwordField));
     }
 }
