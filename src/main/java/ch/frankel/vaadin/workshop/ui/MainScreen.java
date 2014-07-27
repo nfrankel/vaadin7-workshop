@@ -1,5 +1,7 @@
 package ch.frankel.vaadin.workshop.ui;
 
+import ch.frankel.vaadin.workshop.behavior.SendMessageClickListener;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
@@ -11,10 +13,14 @@ public class MainScreen extends CustomComponent {
         Label loginLabel = new Label("Welcome " + VaadinSession.getCurrent().getAttribute(String.class));
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
         Grid grid = new Grid();
+        IndexedContainer container = new IndexedContainer();
+        container.addContainerProperty("Message", String.class, null);
+        grid.setContainerDataSource(container);
         grid.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
         Button sendButton = new Button("Send");
+        sendButton.addClickListener(new SendMessageClickListener(grid, messageArea));
         HorizontalLayout lowerBar = new HorizontalLayout(messageArea, sendButton);
         lowerBar.setWidth(100, PERCENTAGE);
         lowerBar.setSpacing(true);
