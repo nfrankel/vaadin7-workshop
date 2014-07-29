@@ -4,6 +4,8 @@ import ch.frankel.vaadin.workshop.behavior.SendMessageClickListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
+import java.util.Date;
+
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 
 public class MainScreen extends CustomComponent {
@@ -12,7 +14,9 @@ public class MainScreen extends CustomComponent {
         Label loginLabel = new Label("Welcome " + VaadinSession.getCurrent().getAttribute(String.class));
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
         Table table = new Table();
+        table.addContainerProperty("Author", String.class, null);
         table.addContainerProperty("Message", String.class, null);
+        table.addContainerProperty("Date", Date.class, null);
         table.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
