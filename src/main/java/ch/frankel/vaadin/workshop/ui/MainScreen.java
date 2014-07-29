@@ -1,10 +1,10 @@
 package ch.frankel.vaadin.workshop.ui;
 
 import ch.frankel.vaadin.workshop.behavior.SendMessageClickListener;
+import ch.frankel.vaadin.workshop.data.Message;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
-
-import java.util.Date;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 
@@ -13,10 +13,8 @@ public class MainScreen extends CustomComponent {
     public MainScreen() {
         Label loginLabel = new Label("Welcome " + VaadinSession.getCurrent().getAttribute(String.class));
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
-        Table table = new Table();
-        table.addContainerProperty("Author", String.class, null);
-        table.addContainerProperty("Message", String.class, null);
-        table.addContainerProperty("Date", Date.class, null);
+        BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
+        Table table = new Table("", container);
         table.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
