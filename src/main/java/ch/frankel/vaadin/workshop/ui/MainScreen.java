@@ -5,6 +5,8 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
+import java.util.Date;
+
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 
 public class MainScreen extends CustomComponent {
@@ -14,7 +16,9 @@ public class MainScreen extends CustomComponent {
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
         Grid grid = new Grid();
         IndexedContainer container = new IndexedContainer();
+        container.addContainerProperty("Author", String.class, null);
         container.addContainerProperty("Message", String.class, null);
+        container.addContainerProperty("Date", Date.class, null);
         grid.setContainerDataSource(container);
         grid.setSizeFull();
         TextArea messageArea = new TextArea();
