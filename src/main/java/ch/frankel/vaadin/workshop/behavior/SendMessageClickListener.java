@@ -1,5 +1,7 @@
 package ch.frankel.vaadin.workshop.behavior;
 
+import ch.frankel.vaadin.workshop.data.Message;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -9,10 +11,10 @@ import java.util.Date;
 
 public class SendMessageClickListener implements Button.ClickListener {
 
-    private Table output;
+    private BeanItemContainer<Message> output;
     private TextArea input;
 
-    public SendMessageClickListener(Table output, TextArea input) {
+    public SendMessageClickListener(BeanItemContainer<Message> output, TextArea input) {
         this.output = output;
         this.input = input;
     }
@@ -20,9 +22,10 @@ public class SendMessageClickListener implements Button.ClickListener {
     @Override
     public void buttonClick(Button.ClickEvent event) {
         String author = VaadinSession.getCurrent().getAttribute(String.class);
-        String message = input.getValue();
+        String text = input.getValue();
         Date date = new Date();
-        output.addItem(new Object[] { author, message, date }, message.hashCode());
+        Message message = new Message(author, text, date);
+        output.addBean(message);
         input.setValue("");
     }
 }
