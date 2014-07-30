@@ -19,6 +19,8 @@ public class MainScreen extends CustomComponent {
         table.setColumnHeaderMode(HIDDEN);
         table.setVisibleColumns("timeStamp", "author", "text");
         table.setSizeFull();
+        table.setColumnWidth("timeStamp", 100);
+        table.setColumnWidth("author", 100);
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
         Button sendButton = new Button("Send");
