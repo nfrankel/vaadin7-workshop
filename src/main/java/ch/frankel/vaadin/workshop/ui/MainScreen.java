@@ -18,6 +18,7 @@ public class MainScreen extends CustomComponent {
         Table table = new Table("", container);
         table.setColumnHeaderMode(HIDDEN);
         table.setVisibleColumns("timeStamp", "author", "text");
+        table.addGeneratedColumn("timeStamp", new DateColumnGenerator());
         table.setSizeFull();
         table.setColumnWidth("timeStamp", 100);
         table.setColumnWidth("author", 100);
