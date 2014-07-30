@@ -7,6 +7,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
+import static com.vaadin.ui.Table.ColumnHeaderMode.HIDDEN;
 
 public class MainScreen extends CustomComponent {
 
@@ -15,9 +16,7 @@ public class MainScreen extends CustomComponent {
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
         BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
         Table table = new Table("", container);
-        table.setColumnHeader("author", "who");
-        table.setColumnHeader("text", "what");
-        table.setColumnHeader("timeStamp", "when");
+        table.setColumnHeaderMode(HIDDEN);
         table.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
