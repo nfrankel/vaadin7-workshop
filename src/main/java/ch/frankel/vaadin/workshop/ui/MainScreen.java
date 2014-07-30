@@ -17,6 +17,7 @@ public class MainScreen extends CustomComponent {
         BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
         Table table = new Table("", container);
         table.setColumnHeaderMode(HIDDEN);
+        table.setVisibleColumns("timeStamp", "author", "text");
         table.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
