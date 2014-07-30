@@ -17,11 +17,13 @@ public class MainScreen extends CustomComponent {
         BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
         Table table = new Table("", container);
         table.setColumnHeaderMode(HIDDEN);
-        table.setVisibleColumns("timeStamp", "author", "text");
         table.addGeneratedColumn("timeStamp", new DateColumnGenerator());
+        table.addGeneratedColumn("delete", new DeleteColumnGenerator());
+        table.setVisibleColumns("timeStamp", "author", "text", "delete");
         table.setSizeFull();
         table.setColumnWidth("timeStamp", 100);
         table.setColumnWidth("author", 100);
+        table.setColumnWidth("delete", 100);
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
         Button sendButton = new Button("Send");
