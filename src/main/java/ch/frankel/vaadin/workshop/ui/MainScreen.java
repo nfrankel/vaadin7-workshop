@@ -15,6 +15,7 @@ public class MainScreen extends CustomComponent {
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
         BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
         Table table = new Table("", container);
+        table.setColumnHeaders("who", "what", "when");
         table.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
