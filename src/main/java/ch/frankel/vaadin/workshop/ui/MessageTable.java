@@ -1,6 +1,7 @@
 package ch.frankel.vaadin.workshop.ui;
 
 import ch.frankel.vaadin.workshop.data.Message;
+import ch.frankel.vaadin.workshop.push.Broadcaster;
 import com.vaadin.data.util.sqlcontainer.RowItem;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
@@ -47,6 +48,6 @@ public class MessageTable extends Table {
         rowItem.getItemProperty("AUTHOR").setValue(message.getAuthor());
         rowItem.getItemProperty("TEXT").setValue(message.getText());
         rowItem.getItemProperty("TIME_STAMP").setValue(message.getTimeStamp());
-        container.refresh();
+        Broadcaster.broadcast(null);
     }
 }
