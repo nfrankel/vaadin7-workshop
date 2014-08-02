@@ -18,7 +18,7 @@ public class MainScreen extends CustomComponent {
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
         Button sendButton = new Button("Send");
-        sendButton.addClickListener(new SendMessageClickListener(table.getContainerDataSource(), messageArea));
+        sendButton.addClickListener(new SendMessageClickListener(table, messageArea));
         HorizontalLayout lowerBar = new HorizontalLayout(messageArea, sendButton);
         lowerBar.setWidth(100, PERCENTAGE);
         lowerBar.setSpacing(true);
