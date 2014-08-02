@@ -4,8 +4,6 @@ import ch.frankel.vaadin.workshop.ui.MainScreen;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
-import static com.vaadin.ui.Notification.Type.ERROR_MESSAGE;
-
 public class LoginClickListener implements Button.ClickListener {
 
     private TextField loginField;
@@ -18,12 +16,8 @@ public class LoginClickListener implements Button.ClickListener {
 
     @Override
     public void buttonClick(Button.ClickEvent event) {
-        if ("vaadin".equals(loginField.getValue())) {
-            VaadinSession.getCurrent().setAttribute(String.class, loginField.getValue());
-            UI.getCurrent().setContent(new MainScreen());
-            Notification.show("You've been successfully logged in");
-        } else {
-            Notification.show("Wrong credentials", ERROR_MESSAGE);
-        }
+        VaadinSession.getCurrent().setAttribute(String.class, loginField.getValue());
+        UI.getCurrent().setContent(new MainScreen());
+        Notification.show("You've been successfully logged in");
     }
 }

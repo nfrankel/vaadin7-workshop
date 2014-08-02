@@ -15,7 +15,7 @@ public class LoginScreen extends CustomComponent {
         layout.setMargin(true);
         Button button = new Button("Login");
         layout.addComponent(new Label("Please enter credentials"));
-        TextField loginField = new TextField("Login:", "vaadin");
+        TextField loginField = new TextField("Login:");
         loginField.setWidth(250, PIXELS);
         layout.addComponent(loginField);
         PasswordField passwordField = new PasswordField("Password:");
