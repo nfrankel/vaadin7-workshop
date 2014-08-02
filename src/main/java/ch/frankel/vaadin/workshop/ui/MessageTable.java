@@ -17,9 +17,11 @@ import static com.vaadin.ui.Table.ColumnHeaderMode.HIDDEN;
 
 public class MessageTable extends Table {
 
+    private final JDBCConnectionPool connectionPool;
+
     MessageTable() {
         try {
-            JDBCConnectionPool connectionPool = new SimpleJDBCConnectionPool(
+            connectionPool = new SimpleJDBCConnectionPool(
                     getDatabaseDriver(),
                     getDatabaseUrl(),
                     getDatabaseUsername(),
@@ -49,5 +51,11 @@ public class MessageTable extends Table {
         rowItem.getItemProperty("TEXT").setValue(message.getText());
         rowItem.getItemProperty("TIME_STAMP").setValue(message.getTimeStamp());
         Broadcaster.broadcast(null);
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        connectionPool.destroy();
     }
 }
