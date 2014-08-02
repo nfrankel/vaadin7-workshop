@@ -28,6 +28,7 @@ public class SendMessageClickListener implements Button.ClickListener {
         rowItem.getItemProperty("AUTHOR").setValue(author);
         rowItem.getItemProperty("TEXT").setValue(text);
         rowItem.getItemProperty("TIME_STAMP").setValue(date);
+        output.refresh();
         input.setValue("");
     }
 }
