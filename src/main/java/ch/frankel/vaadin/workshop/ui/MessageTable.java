@@ -1,5 +1,7 @@
 package ch.frankel.vaadin.workshop.ui;
 
+import ch.frankel.vaadin.workshop.data.Message;
+import com.vaadin.data.util.sqlcontainer.RowItem;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
 import com.vaadin.data.util.sqlcontainer.connection.SimpleJDBCConnectionPool;
@@ -38,8 +40,13 @@ public class MessageTable extends Table {
         }
     }
 
-    @Override
-    public SQLContainer getContainerDataSource() {
-        return (SQLContainer) super.getContainerDataSource();
+    public void addMessage(Message message) {
+        SQLContainer container = (SQLContainer) getContainerDataSource();
+        Object rowId = container.addItem();
+        RowItem rowItem = (RowItem) container.getItem(rowId);
+        rowItem.getItemProperty("AUTHOR").setValue(message.getAuthor());
+        rowItem.getItemProperty("TEXT").setValue(message.getText());
+        rowItem.getItemProperty("TIME_STAMP").setValue(message.getTimeStamp());
+        container.refresh();
     }
 }
