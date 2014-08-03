@@ -357,11 +357,28 @@ Try the application wit these changes. Notice that the line added to the table w
 
 Icing on the cake, the "add items" feature can be extracted from the listener to the table, so that as to promote encapsulate.
 
-### Push
+### Step 5 - Push
 
 A messaging application with only one user is not really usable. This is however what happens with the current state of our app.
 
-To fix it, we need a single "broadcaster" instance for the entire application (it is provided). At login, each client will register itself to this broadcaster. The latter will then be responsible receive messages sent and send them to all previously registered clients.
+To fix it, we need messages sent from one client to be broadcasted to other logged in client. This translates into the code with a `Broadcaster` singleton that will take care of:
+
+* Registering clients. At startup, each client will register itself to the broadcaster.
+* Un-registering them. Clients **must** be made to unregister so as to prevent memory leaks.
+* Broadcasting messages. Messages will be sent to all registered clients.
+
+Vaadin doesn't offer such a class out-of-the-box but it's provided in the project.
+
+Do the following:
+
+1. Make the `UI` implement `BroadcastListener` and override the method to refresh the table.
+
+    *Note*: at present, tables don't refresh the display either throught their container's `refresh()` method or their own `refreshRowCache()` method. Either replace the table with a new instance or the screen with a new screen - the latter is simpler.
+
+2. In the `UI.init()` method, call `Broadcaster.register()` to register the current instance.
+3. In the `UI.detach()` method, call the opposite `Broadcaster.unregister()`
+
+
 
 
 
