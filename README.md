@@ -117,16 +117,8 @@ Though complete theming is available through Cascading Style Sheets, it's possib
 
 #### Title
 
-Check the page title in the browser: it is set to the page's location. Having a relevant title would go a long way toward a better user-experience. To achieve that, Vaadin provide the `Page` object:
+Check the page title in the browser: it is set to the page's location. Having a relevant title would go a long way toward a better user-experience. To achieve that, Vaadin provide the `@Title` annotation on the `UI`:
 
-
-```java
-Page.getCurrent().setTitle("Vaadin Workshop");
-```
-
-*Note*: the static `getCurrent()` method is available on many Vaadin objects. It uses the `ThreadLocal` pattern, so that you don't have to pass references around.
-
-Alternatively, if the title is static, setting the title can be achieved through the `@Title` annotation on the `UI`.
 
 ```java
 @Title("Vaadin Workshop")
@@ -134,6 +126,14 @@ public class MyVaadinUI extends UI {
     ...
 }
 ```
+
+Alternatively, if the title is dynamic, setting the title can be achieved through the `Page` object.
+
+```java
+Page.getCurrent().setTitle("Vaadin Workshop");
+```
+
+*Note*: the static `getCurrent()` method is available on many Vaadin objects. It uses the `ThreadLocal` pattern, so that you don't have to pass references around.
 
 ### Step 3 - Architecturing
 
@@ -224,7 +224,7 @@ Notification.show("Wrong credentials", ERROR_MESSAGE);
 
 #### Storing data
 
-Notice Vaadin cleverly hides the JavaEE API, so that there's no straightforward access to many objects, such as `HttpSession`, `HttpServletRequest` and `HttpServletResponse` objects. This doesn't mean that their features are not accessible: in particular, storing data into the user session is provided via the `VaadinSession.getCurrent().setAttribute()` method. Store the login field value into the session and display it as a label on the main screen.
+Notice Vaadin cleverly hides the Java EE API, so that there's no straightforward access to many objects, such as `HttpSession`, `HttpServletRequest` and `HttpServletResponse` objects. This doesn't mean that their features are not accessible: in particular, storing data into the user session is provided via the `VaadinSession.getCurrent().setAttribute()` method. Store the login field value into the session and display it as a label on the main screen.
 
 Attributes can be stored by key as usual, but also by class. This makes storing full-fledged objects such as `User` a breeze.
 
@@ -234,9 +234,9 @@ VaadinSession.getCurrent().setAttribute(User.class, user);
 
 ### Step 5 - Tabular data
 
-For a chat application, the `ChatScreen` needs a few components:
+For a chat application, the `MainScreen` needs a few components:
 
-* One `Table` component to display sent messages
+* One `Grid` component to display sent messages
 * One `TextArea` component to type messages
 * One `Button` to effectively send messages
 
@@ -244,86 +244,100 @@ Use what you've learned previously to add those components to the screen as in t
 
 ![Chat screen mockup](src/site/mockup.png)
 
-#### Simple model
+#### Frestyle model
 
-Also, create a `Listener` to move the typed message from the message input to a row in the table. This first requires configuring the table to have a single column of type `String`.
-
-```java
-table.addContainerProperty("Message", String.class, null);
-```
-
-For the moment, simply use the `Table.addItem(Object[] cells, Object itemId)` method to add a new message.
+Also, create a `Listener` to move the typed message from the message input to a row in the grid. This first requires configuring the grid to have a single column of type `String`.
 
 ```java
-table.addItem(new Object[] { message }, )
+Grid grid = new Grid();
+IndexedContainer container = new IndexedContainer();
+container.addContainerProperty("Message", String.class, null);
+grid.setContainerDataSource(container);
 ```
 
-Of course, using a table to add a single piece of data is useless. Let's try to add more data:
-
-* Author (*i.e.* the logged-in user)
-* Date and time
-* And keep the message, of course
-
-#### Container model
-
-Using `Object` arrays to structure the table model is extremely fragile. Fortunately, Vaadin provides an extremely rich structured model. In particular, there're 3 levels of abstraction available:
+Vaadin provides an extremely rich structured model. In particular, there are 3 levels of abstraction available:
 
 * `Property` to wrap a simple value (*e.g.* a date)
 * `Item` to wrap objects - a collection of properties (*e.g.* a person)
 * `Container` to wrap a collection objects
 
-`Container` is extremely well-suited to be displayed in a table component. Each `Item` in a container (*i.e.* row) is identified by a unique identifier dependent on the container's implementation.
+`Container` is naturally suited to be displayed in a grid component. Each `Item` in a container (*i.e.* row) is identified by a unique identifier dependent on the container's implementation.
 
 ![Out-of-the-box container implementations](src/site/container.png)
+
+For the moment, simply use the `Grid.addRow(Object... values)` method to add a new message.
+
+```java
+output.addRow(message);
+```
+
+Of course, using a grid to add a single piece of data is useless. Let's try to add more data:
+
+* Author (*i.e.* the logged-in user)
+* Date and time
+* And keep the message, of course
+
+#### Structured model
+
+Using `IndexedContainer` to structure the container is not object oriented. Let's review possible options:
 
 * `BeanContainer` has to provide a custom identifier generator
 * In a `BeanItemContainer`, the `Item` itself is the identifier
 * In a `SQLContainer`, the identifier is the *primary key* of the underlying database row
 
-Leaving `SQLContainer` aside for now, choose the right `Container` implementation. Then, create a class to hold author, message and date. Finally, binding the container to the table is extremely simple with the `table.setContainerDataSource()` method.
+Leaving `SQLContainer` aside for now, choose the right `Container` implementation. Then, create a class to hold author, message and date.
 
-Note that by using a container data source, **items are to be added on the container instead of the table**. Vaadin out-of-the-box components that are set a data source register it so they will reflect changes to the underlying model.
+Note that by adding structured types, **items are to be added on the container instead of the grid**. Vaadin out-of-the-box components that are set a data source register it so they will reflect changes to the underlying model.
 
 ```java
 Message message = new Message(author, text, date);
-BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
 container.addBean(message);
 ```
 
-#### Customizing tables
+#### Customizing grids
 
-Table components can be heavily customized in a variety of ways.
+Grid components can be heavily customized in a variety of ways.
 
 * Headers
 
-    * By default, column headers take the value of the underlying property. However, they can be customized via the `table.setColumnHeaders(String...)`. Use it to change the column header labels.
+    * By default, column headers take the value of the underlying property. However, they can be customized via the `grid.getColumn(String).setHeaderCaption(String)`. Use it to change the column header captions.
 
-    * By using a container datasource, the initial order of the columns is hard to guess. Besides, underlying wrapped class could change, so the previous method is quite fragile. An alternate way to customize header labels is throught the `table.setColumnHeader(String, String)` method. The first `String` parameter is the property's name, the second one the column header's label to set. Use this alternate way to change column labels.
-
-    * Column headers can also be hidden. In fact, the default header display is governed by the `columnHeaderMode` property of the table. Check its different possible values and hide headers altogether.
+    * The header row can also be hidden using the `grid.setHeaderVisible(false)` method.
     
 * Columns
 
-    * Columns can be hidden or ordered in a different way, both thanks to the `table.setVisibleColumns(String[])`. The array parameter is the ordered list of all container properties to be displayed on the table.
+    * Columns can be hidden or ordered in a different way, using respectively `grid.getColumn(String).setHidden(boolean)` and `grid.setColumnOrder(String...)`. In the later case, note that container properties not listed in the var args parameter will be displayed on the grid.
     
-    * As any components, columns can be set a width with `table.setColumnWidth(String, int)`. The first parameter is the property name, the second the width in pixel. Use this to resize the author and timestamp columns.
+    * As any components, columns can be set a width with `grid.getColumn(String).setWidth(int)`. The parameter is the width in pixels. Use this to resize the author and timestamp columns.
     
-    * Column cells rendering can also be customized. By default, the property's value is formatted into a `String` and displayed in a `Label`. Most types are transformed using `toString()`, but some (*e.g.* `java.util.Date`) are handled in a specific way. To change the rendering of a column, implement a new `ColumnGenerator` and add it to the table with `table.addGeneratedColumn(String, ColumnGenerator)`. 
+    * Column cells rendering can also be customized depending on the property type, this is based on renderers. Some renderers are available out of the box - `DateRenderer`, `ImageRenderer`, `HtmlRenderer`, etc., while you can implement your own using the `Renderer<T>` interface. By default, the property's value is formatted into a `String` using `toString()` and rendered in a `Label`.
+    
+        For example, use the existing `DateRenderer` to render the timestamp in a format of your choosing. Note that the format String is based on [`Formatter`](https://docs.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html), not `SimpleDateFormat` *e.g.*:
     
         ```java
-        @Override
-        public Object generateCell(Table source, Object itemId, Object columnId) {
-            Item item = source.getItem(itemId);
-            Property property = item.getItemProperty(columnId);
-            Object value = property.getValue();
-            return MyComponent(value);
-        ``` 
+        grid.getColumn("timeStamp").setRenderer(new DateRenderer("%1$ta. %1$tH:%1$tM:%1$tS"));
+        ```
+    
+    * Even better, generated properties can be used to add columns that are not part of the model. To do so, the container has to be wrapped in a `GeneratedPropertyContainer` which offers a `addGeneratedProperty(String, PropertyValueGenerator<T>)`. For example, the following adds a new generated property to the grid:
 
-        The returned type can be either `Component` or `String`. In the latter case, it will be wrapped into a label to be displayed.
-        
-        Even better, column generators can be used to add entirely new columns. Write such a generator to display a column with a "Delete me" button. Then add a behavior so that when the button is pressed, the associated message is removed from the container. Hint: store the `Item`'s id and the reference to the container with the `Button.setData(Object)` and remove the item with the `BeanItemContainer.removeItem(Object)`.
-
-Extract all table-related code into its own decicated `MessageTable` class.
+        ```java
+        GeneratedPropertyContainer genPropContainer = new GeneratedPropertyContainer(container);
+        grid.setContainerDataSource(genPropContainer);
+        genPropContainer.addGeneratedProperty("hello", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Hello World!";
+            }
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
+        ```
+    
+     Write such a generated property with a renderer to display a column with a "Delete me" button. Then add a behavior so that when the button is pressed, the associated row is removed from the container. Hint: the `ButtonRenderer` accepts a `RendererClickListener` as a constructor parameter.
+    
+Extract all grid-related code into its own decicated `MessageGrid` class.
 
 #### SQL database
 
@@ -333,7 +347,7 @@ At this point, migrating to a SQL database instead of a in-memory container is s
 
 Of course, some adaptations are in order:
 
-1. The main changes has to be made in the `MessageTable`. Replace the previous `BeanItemContainer` and along, replace `Message` property names by the names of the database columns (`TIME_STAMP`, `AUTHOR` and `TEXT`). Note some of the above objects have to be used, choose wisely!
+1. The main changes has to be made in the `MessageGrid`. Replace the previous `BeanItemContainer` and along, replace `Message` property names by the names of the database columns (`TIME_STAMP`, `AUTHOR` and `TEXT`). Note some of the above objects have to be used, choose wisely!
 
     ```java
     JDBCConnectionPool connectionPool = ...
@@ -343,7 +357,7 @@ Of course, some adaptations are in order:
     
     For connection parameters, use the available `Parameters` class.
 
-2. In the click listener, replace usage of the `addBean()` method and the `Message` class with the `addItem()` method and getting the desired property to set its value:
+2. In the click listener, replace usage of the `addRow()` method with the `addItem()` method and getting the desired property to set its value:
 
     ```java
     Object rowId = output.addItem();
@@ -353,30 +367,27 @@ Of course, some adaptations are in order:
 
 3. By default, the SQL container doesn't commit changes automatically to the underlying database. Either set it auto-commit or commit each change (add and delete) explicitly.
 
-Try the application wit these changes. Notice that the line added to the table will be empty. In order to sync changes made to the container, call its `refresh()` method.
-
-Icing on the cake, the "add items" feature can be extracted from the listener to the table, so that as to promote encapsulate.
+Icing on the cake, the "add items" feature can be extracted from the listener to the grid, so as to promote encapsulation.
 
 ### Step 5 - Push
 
 A messaging application with only one user is not really usable. This is however what happens with the current state of our app.
 
-To fix it, we need messages sent from one client to be broadcasted to other logged in client. This translates into the code with a `Broadcaster` singleton that will take care of:
+To fix it, we need messages sent from one client to be broadcasted to other logged in client. This translates into the code with a "Broadcaster" singleton that will take care of:
 
 * Registering clients. At startup, each client will register itself to the broadcaster.
 * Un-registering them. Clients **must** be made to unregister so as to prevent memory leaks.
 * Broadcasting messages. Messages will be sent to all registered clients.
 
-Vaadin doesn't offer such a class out-of-the-box but it's provided in the project.
+Vaadin doesn't offer such a class out-of-the-box but the Guava library provides an `EventBus` class. There's a `EventBusUtils` to provide a singleton instance available in the project.
 
 Do the following:
 
-1. Make the `UI` implement `BroadcastListener` and override the method to refresh the table.
-
-    *Note*: at present, tables don't refresh the display either throught their container's `refresh()` method or their own `refreshRowCache()` method. Either replace the table with a new instance or the screen with a new screen - the latter is simpler.
-
-2. In the `UI.init()` method, call `Broadcaster.register()` to register the current instance.
-3. In the `UI.detach()` method, call the opposite `Broadcaster.unregister()`
+1. Add the `@Push` annotation on the `UI` class.
+1. Create a public getter around the grid in the main screen.
+1. Call `grid.clearSortOrder()` to force refreshing the grid in the `UI.access()` method. Note: it has to be in the `UI` class itself, not from `UI.getCurrent()`.
+1. In the `UI.init()` method, call `EventBusUtils.singleton().register(this)` to register the `UI` in the `EventBus` singleton.
+1. In the `UI.detach()` method, call the opposite `EventBusUtils.singleton().unregister(this)`
 
 
 

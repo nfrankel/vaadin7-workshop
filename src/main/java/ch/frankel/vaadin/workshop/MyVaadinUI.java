@@ -24,11 +24,7 @@ public class MyVaadinUI extends UI {
         final VerticalLayout layout = new VerticalLayout();
         setContent(layout);
         Button button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking"));
-            }
-        });
+        button.addClickListener(event -> layout.addComponent(new Label("Thank you for clicking")));
         layout.addComponent(button);
     }
 }
