@@ -255,7 +255,7 @@ table.addContainerProperty("Message", String.class, null);
 For the moment, simply use the `Table.addItem(Object[] cells, Object itemId)` method to add a new message.
 
 ```java
-table.addItem(new Object[] { message });
+table.addItem(new Object[] { message }, message.hashCode());
 ```
 
 Of course, using a table to add a single piece of data is useless. Let's try to add more data:
