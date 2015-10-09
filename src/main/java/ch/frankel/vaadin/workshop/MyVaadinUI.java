@@ -1,5 +1,6 @@
 package ch.frankel.vaadin.workshop;
 
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import static com.vaadin.server.Sizeable.Unit.PIXELS;
 
 @SuppressWarnings("serial")
+@Title("Vaadin Workshop")
 public class MyVaadinUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
