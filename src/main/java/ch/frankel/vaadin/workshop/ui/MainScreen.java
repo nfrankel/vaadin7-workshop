@@ -16,6 +16,8 @@ import static ch.frankel.vaadin.workshop.util.Parameters.*;
 
 public class MainScreen extends CustomComponent {
 
+    private final MessageGrid grid;
+
     public MainScreen() {
         Label loginLabel = new Label("Welcome " + VaadinSession.getCurrent().getAttribute(String.class));
         HorizontalLayout menuBar = new HorizontalLayout(loginLabel);
@@ -28,7 +30,7 @@ public class MainScreen extends CustomComponent {
             QueryDelegate queryDelegate = new TableQuery("MESSAGE", connectionPool);
             SQLContainer container = new SQLContainer(queryDelegate);
             container.setAutoCommit(true);
-            MessageGrid grid = new MessageGrid(container);
+            grid = new MessageGrid(container);
             TextArea messageArea = new TextArea();
             messageArea.setWidth(100, PERCENTAGE);
             Button sendButton = new Button("Send");
@@ -44,5 +46,9 @@ public class MainScreen extends CustomComponent {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Grid getGrid() {
+        return grid;
     }
 }

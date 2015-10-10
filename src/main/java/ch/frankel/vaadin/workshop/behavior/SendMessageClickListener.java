@@ -7,6 +7,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TextArea;
 
 import java.util.Date;
+import ch.frankel.vaadin.workshop.util.EventBusUtils;
+import ch.frankel.vaadin.workshop.util.RefreshEvent;
 
 public class SendMessageClickListener implements Button.ClickListener {
 
@@ -29,5 +31,6 @@ public class SendMessageClickListener implements Button.ClickListener {
         item.getItemProperty("TEXT").setValue(text);
         item.getItemProperty("TIME_STAMP").setValue(date);
         input.setValue("");
+        EventBusUtils.singleton().post(new RefreshEvent());
     }
 }
