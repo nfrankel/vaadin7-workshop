@@ -17,6 +17,7 @@ public class MainScreen extends CustomComponent {
         BeanItemContainer<Message> container = new BeanItemContainer<>(Message.class);
         grid.setContainerDataSource(container);
         grid.setHeaderVisible(false);
+        grid.setColumnOrder("timeStamp", "author", "text");
         grid.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
