@@ -5,6 +5,7 @@ import ch.frankel.vaadin.workshop.data.Message;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.DateRenderer;
 
 import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
 
@@ -20,6 +21,7 @@ public class MainScreen extends CustomComponent {
         grid.setColumnOrder("timeStamp", "author", "text");
         grid.getColumn("timeStamp").setWidth(100);
         grid.getColumn("author").setWidth(100);
+        grid.getColumn("timeStamp").setRenderer(new DateRenderer("%1$ta. %1$tH:%1$tM:%1$tS"));
         grid.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
