@@ -18,6 +18,8 @@ public class MainScreen extends CustomComponent {
         grid.setContainerDataSource(container);
         grid.setHeaderVisible(false);
         grid.setColumnOrder("timeStamp", "author", "text");
+        grid.getColumn("timeStamp").setWidth(100);
+        grid.getColumn("author").setWidth(100);
         grid.setSizeFull();
         TextArea messageArea = new TextArea();
         messageArea.setWidth(100, PERCENTAGE);
